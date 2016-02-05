@@ -3,21 +3,36 @@ package com.example.android.project;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.project.setup.DBAssetHelper;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TextView mTextViewMain;
+    private ListView mListViewResults;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Ignore the two lines below, they are for setup
+        DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
+        dbSetup.getReadableDatabase();
+
         handleIntent(getIntent());
+
+        mTextViewMain = (TextView) findViewById(R.id.textViewOnMainActivityMainText);
+        mListViewResults = (ListView) findViewById(R.id.listViewOnMainActivitySearchResults);
     }
 
     @Override
@@ -37,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(MainActivity.this, "Searching for "+query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
         }
     }
 }

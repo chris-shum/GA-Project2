@@ -8,19 +8,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.project.MainActivity">
+    tools:context="com.example.android.project.FavoritesActivity">
 
     <TextView
-        android:id="@+id/textViewOnMainActivityMainText"
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewOnFavoritesActivityMainText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="FAVORITES!!!!!!" />
 
     <ListView
-        android:id="@+id/listViewOnMainActivitySearchResults"
+        android:id="@+id/listViewOnFavoritesActivity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_weight="1"></ListView>
 
-
-    </ListView>
 </LinearLayout>

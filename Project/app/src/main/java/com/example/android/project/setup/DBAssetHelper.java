@@ -10,7 +10,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
  */
 public class DBAssetHelper extends SQLiteAssetHelper {
 
-    private static final String DATABASE_NAME = "SHOPPING_DB";
+    private static final String DATABASE_NAME = "RESTAURANTS_DB";
     private static final int DATABASE_VERSION = 7;
 
     public DBAssetHelper(Context context) {

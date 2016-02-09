@@ -110,8 +110,8 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
-                COL_RESTAURANT_NAME + " LIKE ?", // c. selections
-                new String[]{"%" + query + "%"}, // d. selections args
+                COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?", // c. selections
+                new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"}, // d. selections args
                 null, // e. group by
                 null, // f. having
                 null, // g. order by
@@ -307,9 +307,9 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void updateFavoriteStatus(String favorites, int id)
-    {SQLiteDatabase db = this.getWritableDatabase();
-        String command = ("UPDATE " + RESTAURANT_LIST_TABLE_NAME+ " SET " + COL_FAVORITES + " = " + favorites + " WHERE " + COL_ID + " = "+id);
+    public void updateFavoriteStatus(String favorites, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String command = ("UPDATE " + RESTAURANT_LIST_TABLE_NAME + " SET " + COL_FAVORITES + " = " + favorites + " WHERE " + COL_ID + " = " + id);
         db.execSQL(command);
     }
 }

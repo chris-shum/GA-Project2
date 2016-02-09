@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListViewResults;
     private ProjectSQLiteOpenHelper mHelper;
     private CursorAdapter mCursorAdapter;
+    Button mFavorites;
 
 
     @Override
@@ -39,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
         mListViewResults = (ListView) findViewById(R.id.listViewOnMainActivitySearchResults);
         mHelper = ProjectSQLiteOpenHelper.getInstance(MainActivity.this);
 
-        mTextViewMain.setText("Restaurants List:");
+        mTextViewMain.setText("Welcome to Manhattan Eats!  " +
+                "\nLet's find you a place to eat!" +
+                "\nYou can browse through our restaurant list below," +
+                "\nsearch above with the magnifying glass above," +
+                "\nor check out your favorites also above." +
+                "\n\nSearch by restaurant name, neighborhood, address, type of food, or price (cheap, moderate, or expensive)." +
+                "\n\n\nRestaurant List:");
 
         Cursor cursor = mHelper.getRestaurantList();
 
@@ -63,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -74,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favoritesButton:
+                Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
+    }
+
 
     @Override
     protected void onNewIntent(Intent intent) {

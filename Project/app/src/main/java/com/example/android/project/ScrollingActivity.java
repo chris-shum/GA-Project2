@@ -12,9 +12,10 @@ import android.widget.TextView;
 public class ScrollingActivity extends AppCompatActivity {
 
     ProjectSQLiteOpenHelper mHelper;
-    boolean mFavorites = false;
     ImageView mFavoritesButton;
     WebView mWebView;
+    View actionbar;
+    String mFavoriteStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,46 +28,54 @@ public class ScrollingActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.webViewTest);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
+        actionbar = findViewById(R.id.toolbar);
+
+
+        mHelper = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this);
+
+        final int theIDNumber = getIntent().getIntExtra("id", -1);
+        mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
+
+        if (mFavoriteStatus.equals("0")) {
+            mFavoritesButton.setImageResource(android.R.drawable.btn_star_big_off);
+        } else {
+            mFavoritesButton.setImageResource(android.R.drawable.btn_star_big_on);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (!mFavorites){
+                if (mFavoriteStatus.equals("0")) {
                     mFavoritesButton.setImageResource(android.R.drawable.btn_star_big_on);
-                    mFavorites = true;
-                }else{
+                    mHelper.updateFavoriteStatus("1", theIDNumber);
+                    mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
+                } else {
                     mFavoritesButton.setImageResource(android.R.drawable.btn_star_big_off);
-                    mFavorites = false;
+                    mHelper.updateFavoriteStatus("0", theIDNumber);
+                    mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
                 }
             }
         });
 
-        mHelper = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this);
-
-        int theIDNumber = getIntent().getIntExtra("id", -1);
 
         TextView textViewDescription = (TextView) findViewById(R.id.textViewOnDetailsActivityDescription);
 
         if (theIDNumber >= 0) {
-            String restaurantName = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getNameById(theIDNumber);
-            String restaurantPrice = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getPriceById(theIDNumber);
-            String restaurantType = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getTypeById(theIDNumber);
-            String restaurantNeighborhood = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getNeighborhoodById(theIDNumber);
-            String restaurantAddress = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getAddressById(theIDNumber);
-            String restaurantDescription = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getDescriptionById(theIDNumber);
-            String restaurantImage = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getImageById(theIDNumber);
-            String restaurantReview = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getReviewById(theIDNumber);
-            String restaurantFavorite = ProjectSQLiteOpenHelper.getInstance(ScrollingActivity.this).getFavoritesById(theIDNumber);
+            String restaurantName = mHelper.getNameById(theIDNumber);
+            String restaurantPrice = mHelper.getPriceById(theIDNumber);
+            String restaurantType = mHelper.getTypeById(theIDNumber);
+            String restaurantNeighborhood = mHelper.getNeighborhoodById(theIDNumber);
+            String restaurantAddress = mHelper.getAddressById(theIDNumber);
+            String restaurantDescription = mHelper.getDescriptionById(theIDNumber);
+            String restaurantImage = mHelper.getImageById(theIDNumber);
+            String restaurantReview = mHelper.getReviewById(theIDNumber);
 
             mWebView.loadUrl(restaurantImage);
             setTitle(restaurantName);
-
-            String mainString = restaurantNeighborhood+"\n"+restaurantAddress+"\nFood type: "+restaurantType+"\nPrice: "+restaurantPrice+"\n\n"+restaurantDescription;
-
+            String mainString = restaurantNeighborhood + "\n" + restaurantAddress + "\nFood type: " + restaurantType + "\nPrice: " + restaurantPrice + "\n\n" + restaurantDescription;
             textViewDescription.setText(mainString);
-
         }
     }
 }

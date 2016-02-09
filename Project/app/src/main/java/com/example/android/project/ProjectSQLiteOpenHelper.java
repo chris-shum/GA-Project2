@@ -292,13 +292,24 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String editFavorites(int id) {
+    public Cursor getFavoritesList() {
 
+        SQLiteDatabase db = this.getReadableDatabase();
 
-
-        return "Description not found";
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                RESTAURANT_COLUMNS, // b. column names
+                COL_FAVORITES + " LIKE ?", // c. selections
+                new String[]{"%1%"}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        return cursor;
     }
 
-
-
+    public void updateFavoriteStatus(String favorites, int id)
+    {SQLiteDatabase db = this.getWritableDatabase();
+        String command = ("UPDATE " + RESTAURANT_LIST_TABLE_NAME+ " SET " + COL_FAVORITES + " = " + favorites + " WHERE " + COL_ID + " = "+id);
+        db.execSQL(command);
+    }
 }

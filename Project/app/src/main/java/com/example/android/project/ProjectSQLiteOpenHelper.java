@@ -66,32 +66,8 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-//    public long addItem(String name, String description, String price, String type) {
-//        ContentValues values = new ContentValues();
-//        values.put(COL_RESTAURANT_NAME, name);
-//        values.put(COL_RESTAURANT_DESCRIPTION, description);
-//        values.put(COL_RESTAURANT_PRICE, price);
-//        values.put(COL_RESTAURANT_TYPE, type);
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        long returnId = db.insert(RESTAURANT_LIST_TABLE_NAME, null, values);
-//        db.close();
-//        return returnId;
-//    }
-//
-//    public int deleteItem(int id) {
-//        SQLiteDatabase db = getWritableDatabase();
-//        int deleteNum = db.delete(RESTAURANT_LIST_TABLE_NAME,
-//                COL_ID + " = ?",
-//                new String[]{String.valueOf(id)});
-//        db.close();
-//        return deleteNum;
-//    }
-
     public Cursor getRestaurantList() {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
                 null, // c. selections
@@ -100,14 +76,12 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
                 null, // f. having
                 null, // g. order by
                 null); // h. limit
-
         return cursor;
     }
 
 
     public Cursor searchRestaurantList(String query) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
                 COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?", // c. selections
@@ -116,15 +90,11 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
                 null, // f. having
                 null, // g. order by
                 null); // h. limit
-
         return cursor;
     }
 
-
     public String getNameById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_RESTAURANT_NAME}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -141,9 +111,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getPriceById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_RESTAURANT_PRICE}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -160,9 +128,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getTypeById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_RESTAURANT_TYPE}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -179,9 +145,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getNeighborhoodById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_NEIGHBORHOOD}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -198,9 +162,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getAddressById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_ADDRESS}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -217,9 +179,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getDescriptionById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_RESTAURANT_DESCRIPTION}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -236,9 +196,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getImageById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_IMAGE}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -255,9 +213,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getReviewById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_REVIEW}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -274,9 +230,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String getFavoritesById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 new String[]{COL_FAVORITES}, // b. column names
                 COL_ID + " = ?", // c. selections
@@ -293,9 +247,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getFavoritesList() {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
                 COL_FAVORITES + " LIKE ?", // c. selections

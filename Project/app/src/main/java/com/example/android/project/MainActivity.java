@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListViewResults;
     private ProjectSQLiteOpenHelper mHelper;
     private CursorAdapter mCursorAdapter;
-    Button mFavorites;
 
 
     @Override
@@ -50,13 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 "\n\nSearch by restaurant name, neighborhood, address, type of food, or price (cheap, moderate, or expensive)." +
                 "\n\n\nRestaurant List:");
 
+        //the below gets the data from database and adapter sets it to display on the listview.
         Cursor cursor = mHelper.getRestaurantList();
-
         mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
         mListViewResults.setAdapter(mCursorAdapter);
 
+        //searches and displays results
         handleIntent(getIntent());
 
+        //onItemClickListener gets the ID# of the data being clicked, opens up details activity, and passes the ID# of the data.
         mListViewResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,11 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
-
+    //search settings setup as shown in lesson
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -85,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //makes the favorites button in the toolbar functional, opens favorites intent when button is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -96,18 +95,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
 
+    //all the functions of the search and refreshing the list with the results
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Cursor cursor = mHelper.searchRestaurantList(query);
             mCursorAdapter.changeCursor(cursor);
-            mTextViewMain.setText("Search results for \"" + query + "\":");
+            if (cursor.getCount() == 0) {
+                mTextViewMain.setText("Your search results for \"" + query + "\"yielded no results.");
+            } else {
+                mTextViewMain.setText("Search results for \"" + query + "\":");
+            }
         }
     }
 }

@@ -33,12 +33,12 @@ public class FavoritesActivity extends AppCompatActivity {
         mListViewResults = (ListView) findViewById(R.id.listViewOnFavoritesActivity);
         mHelper = ProjectSQLiteOpenHelper.getInstance(FavoritesActivity.this);
 
+        //gets favorites list (all items in column with "1" in column) and displays on listview
         Cursor cursor = mHelper.getFavoritesList();
-
         mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
         mListViewResults.setAdapter(mCursorAdapter);
 
-
+        //onItemClickListener gets the ID# of the data being clicked, opens up details activity, and passes the ID# of the data.
         mListViewResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -50,9 +50,15 @@ public class FavoritesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
+    //had an update error when pressing back buttons after changing a favorite status in page, this refreshes to update the list to the latest changes upon opening
+    @Override
+    public void onResume() {
+        super.onResume();
+        Cursor cursor = mHelper.getFavoritesList();
+        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
+        mListViewResults.setAdapter(mCursorAdapter);
+    }
 }
 

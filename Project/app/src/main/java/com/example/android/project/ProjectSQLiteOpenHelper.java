@@ -140,25 +140,6 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getDescriptionById(int id) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
-                new String[]{COL_RESTAURANT_DESCRIPTION}, // b. column names
-                COL_ID + " = ?", // c. selections
-                new String[]{String.valueOf(id)}, // d. selections args
-                null, // e. group by
-                null, // f. having
-                null, // g. order by
-                null); // h. limit
-        if (cursor.moveToFirst()) {
-            return cursor.getString(cursor.getColumnIndex(COL_RESTAURANT_DESCRIPTION));
-        } else {
-            return "Description not found";
-        }
-    }
-
     public String getPriceById(int id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -196,4 +177,128 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
             return "Description not found";
         }
     }
+
+    public String getNeighborhoodById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_NEIGHBORHOOD}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_NEIGHBORHOOD));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String getAddressById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_ADDRESS}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_ADDRESS));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String getDescriptionById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_RESTAURANT_DESCRIPTION}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_RESTAURANT_DESCRIPTION));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String getImageById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_IMAGE}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_IMAGE));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String getReviewById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_REVIEW}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_REVIEW));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String getFavoritesById(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                new String[]{COL_FAVORITES}, // b. column names
+                COL_ID + " = ?", // c. selections
+                new String[]{String.valueOf(id)}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(COL_FAVORITES));
+        } else {
+            return "Description not found";
+        }
+    }
+
+    public String editFavorites(int id) {
+
+
+
+        return "Description not found";
+    }
+
+
+
 }

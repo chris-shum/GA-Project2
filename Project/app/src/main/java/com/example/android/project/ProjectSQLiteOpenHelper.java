@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by ShowMe on 2/6/16.
  */
@@ -25,6 +28,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String COL_IMAGE = "IMAGE";
     public static final String COL_REVIEW = "REVIEW";
     public static final String COL_FAVORITES = "FAVORITES";
+//    String[] mNewString = new String[]{"%up%", "%up%", "%up%", "%up%", "%up%", "%1%"};
 
     public static final String[] RESTAURANT_COLUMNS = {COL_ID, COL_RESTAURANT_NAME, COL_RESTAURANT_PRICE, COL_RESTAURANT_TYPE, COL_NEIGHBORHOOD, COL_ADDRESS, COL_RESTAURANT_DESCRIPTION, COL_IMAGE, COL_REVIEW, COL_FAVORITES};
 
@@ -79,19 +83,77 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    //the three methods below allow for searching multiple terms to narrow down searches
+    public String specialSearchesColumns(String query) {
+        String[] splitSearchedWords = query.split(" ");
+        String columnsSearched = "(" + COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?)"; // c. selections
+        int i;
+        String newColumnsSearched = columnsSearched;
+        if (splitSearchedWords.length < 2) {
+            return columnsSearched;
+        } else {
+            for (i = 1; i < splitSearchedWords.length; i++) {
+                newColumnsSearched = newColumnsSearched + " AND " + columnsSearched;
+            }
+        }
+        return newColumnsSearched;
+    }
+
+    public String[] specialSearchesQuery(String query) {
+        String[] splitSearchedWords = query.split(" ");
+        int i = 0;
+        String[] searchTerms = new String[]{"%" + splitSearchedWords[i] + "%", "%" + splitSearchedWords[i] + "%", "%" + splitSearchedWords[i] + "%", "%" + splitSearchedWords[i] + "%", "%" + splitSearchedWords[i] + "%"};
+
+        if (splitSearchedWords.length < 2) {
+            return searchTerms;
+        } else {
+            int j = 0;
+
+            ArrayList list = new ArrayList<String>();
+            for (j = 0; j < splitSearchedWords.length; j++) {
+                String[] multipleSearchTerms = new String[]{"%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%"};
+
+                list.addAll(Arrays.asList(multipleSearchTerms));
+            }
+            String[] newSearchTerms = new String[list.size()];
+            list.toArray(newSearchTerms);
+            return newSearchTerms;
+        }
+    }
 
     public Cursor searchRestaurantList(String query) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
-                COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?", // c. selections
-                new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"}, // d. selections args
+//                COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?", // c. selections
+//                new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"}, // d. selections args
+                specialSearchesColumns(query),
+                specialSearchesQuery(query),
                 null, // e. group by
                 null, // f. having
                 null, // g. order by
                 null); // h. limit
         return cursor;
     }
+
+    //modifies sql search to have favorites included as well
+    public Cursor searchRestaurantListFromFavorites(String query) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] newString = new String[(specialSearchesQuery(query).length)+1];
+        for (int i = 0; i < (specialSearchesQuery(query).length); i++)
+        {newString[i] = specialSearchesQuery(query)[i];}
+        newString[specialSearchesQuery(query).length] = "1";
+        Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
+                RESTAURANT_COLUMNS, // b. column names
+                specialSearchesColumns(query)+ " AND "+COL_FAVORITES+" LIKE ?",
+                newString,
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        return cursor;
+    }
+
 
     public String getNameById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -228,6 +290,13 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
             return "Description not found";
         }
     }
+
+    public void updateReviewStatus(String favorites, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String command = ("UPDATE " + RESTAURANT_LIST_TABLE_NAME + " SET " + COL_REVIEW + " = " + favorites + " WHERE " + COL_ID + " = " + id);
+        db.execSQL(command);
+    }
+
 
     public String getFavoritesById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();

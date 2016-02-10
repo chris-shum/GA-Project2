@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListViewResults;
     private ProjectSQLiteOpenHelper mHelper;
     private CursorAdapter mCursorAdapter;
+    ImageView mTestImage;
 
 
     @Override
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewMain = (TextView) findViewById(R.id.textViewOnMainActivityMainText);
         mListViewResults = (ListView) findViewById(R.id.listViewOnMainActivitySearchResults);
         mHelper = ProjectSQLiteOpenHelper.getInstance(MainActivity.this);
+        mTestImage = (ImageView) findViewById(R.id.testImageView);
 
         mTextViewMain.setText("Welcome to Manhattan Eats!  " +
                 "\nLet's find you a place to eat!" +
@@ -61,11 +64,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = mCursorAdapter.getCursor();
-                Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
+                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                 cursor.moveToPosition(position);
                 int theIDNumber = cursor.getInt(cursor.getColumnIndex(ProjectSQLiteOpenHelper.COL_ID));
                 intent.putExtra("id", theIDNumber);
                 startActivity(intent);
+            }
+        });
+
+        //removes the main activity image upon clicking
+        mTestImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTestImage.setVisibility(View.GONE);
             }
         });
     }
@@ -108,8 +119,11 @@ public class MainActivity extends AppCompatActivity {
             mCursorAdapter.changeCursor(cursor);
             if (cursor.getCount() == 0) {
                 mTextViewMain.setText("Your search results for \"" + query + "\"yielded no results.");
+                mTestImage.setVisibility(View.GONE);
+
             } else {
                 mTextViewMain.setText("Search results for \"" + query + "\":");
+                mTestImage.setVisibility(View.GONE);
             }
         }
     }

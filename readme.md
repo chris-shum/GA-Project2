@@ -45,8 +45,6 @@ The favorites screen displays a list of your favorites.
 
 
 ##Screenshots:
-/screenshots/main.png
-
-/screenshots/details.png
-
-/screenshots/favorites.png
+ <img src="screenshots/main.png">
+  <img src="screenshots/details.png">
+   <img src="screenshots/favorites.png">

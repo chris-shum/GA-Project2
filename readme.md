@@ -1,41 +1,50 @@
-#2016-01-22
-#Project 1
-#BOOP List by Chris Shum
+#2016-02-12
+#Project 2
+#Manhattan Eats by Chris Shum
 
-My goal with the BOOP List was to have full functionality of a to do list packed within simplicity.  In other words, I wanted the entire app to work with one button.  In hindsight, this was probably a bad idea as it made the coding more complicated than it needed to be (if I had more buttons), but I enjoyed the challenge.
+My approach to this app was to attack all the functionality components first.  I kept it simple creating only one activity per major function, testing each one as I completed it.  Once finishing, I moved on to the material design.  Design is tough for me, and I became even more discouraged when I had been fully testing on my device only to find that the layout did not work as well for the emulator.  Fortunately I found documentation to support multiple screens.
 
+All and all, I enjoyed the project.  I'm certain my code could be improved upon and would like to know how.  I also know I need much more work on material design.
 
 
 ##How to use:
 
 ###Main screen:
+  The main page holds a general greetings, instructions on how to use the app, and a restaurant list.
 
-  -To add new list:
-  Enter your lists name into the text box and "BOOP".
+  -To start:
+  Clicking will lead you to the main page.
 
-  -To delete:
-  Enter the name of the list you wish to delete and "BOOP".
-  Enter 'y' and "BOOP" to confirm and execute the deletion.
+  -To select:
+  Clicking on a restaurant in the restaurant list will open a details activity with the restaurant details.
 
-  -To enter a list:
-  Click on list name.
+  -To search:
+  Clicking on the magnifying glass on the top right will allow you to search.
+  My search function searches from 5 criteria, name, neighborhood, address, type of food, and price.
+  My search function is also set to accept multiple words to narrow down the search, however because of the way it's set, you cannot search for two words in the same criteria (column.  ie. cannot search for cheap and expensive food at the same time.)
+
+  -Favorites:
+  Clicking on the start icon on the top right will open a favorites activity with the favorites list.
 
 
-###In list screen:
+###In details screen:
+The details screen displays restaurant details and has a few features.
 
-  -To add new item:
-  Enter your item into the text box and "BOOP"
+  -To favorite:
+  Click on the floating star button to favorite/unfavorite
 
-  -To delete:
-  Enter name of item you wish to delete and "BOOP".
-  Enter 'y' and "BOOP" to confirm and execute the delete.
+  -To rate:
+  Click on the rating bar to rate.
 
-  -To save list and return to main screen;
-  "BOOP" an empty field.
-  Enter 'y' and "BOOP" to save and return to main screen.
+###In favorites screen:
+The favorites screen displays a list of your favorites.
+
+  -To remove:
+  You can long click to remove a favorite
 
 
 
 ##Screenshots:
-/app/src/main/res/drawable/i1.jpeg
-/app/src/main/res/drawable/i2.jpeg
+/screenshots/main
+/screenshots/detail
+/screenshots/favorites

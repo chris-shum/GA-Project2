@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -43,12 +43,14 @@ public class DetailsActivity extends AppCompatActivity {
         mHelper = ProjectSQLiteOpenHelper.getInstance(DetailsActivity.this);
 
         final int theIDNumber = getIntent().getIntExtra("id", -1);
-        mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
+
+        //rating bar gets data and sets it
         mRatingBar.setRating(Float.parseFloat((mHelper.getReviewById(theIDNumber))));
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Drawable drawable = ratingBar.getProgressDrawable();
         drawable.setColorFilter(Color.parseColor("#ffd700"), PorterDuff.Mode.SRC_ATOP);
 
+        mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
         //the above gets the status of the favorite while below sets the image of the favorite star
         if (mFavoriteStatus.equals("0")) {
             mFavoritesButton.setImageResource(android.R.drawable.btn_star_big_off);
@@ -90,12 +92,12 @@ public class DetailsActivity extends AppCompatActivity {
             setTitle(restaurantName);
             String mainString = restaurantNeighborhood + "\n" + restaurantAddress + "\nFood type: " + restaurantType + "\nPrice: " + restaurantPrice + "\n\n" + restaurantDescription;
             mTextViewDescription.setText(mainString);
+            mTextViewDescription.setMovementMethod(new ScrollingMovementMethod());
 
             //updates rating bar information on database when rating bar is clicked
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    Log.d("Blah", String.valueOf(mRatingBar.getRating()));
                     mHelper.updateReviewStatus(Float.toString(mRatingBar.getRating()), theIDNumber);
                 }
             });

@@ -28,8 +28,6 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String COL_IMAGE = "IMAGE";
     public static final String COL_REVIEW = "REVIEW";
     public static final String COL_FAVORITES = "FAVORITES";
-//    String[] mNewString = new String[]{"%up%", "%up%", "%up%", "%up%", "%up%", "%1%"};
-
     public static final String[] RESTAURANT_COLUMNS = {COL_ID, COL_RESTAURANT_NAME, COL_RESTAURANT_PRICE, COL_RESTAURANT_TYPE, COL_NEIGHBORHOOD, COL_ADDRESS, COL_RESTAURANT_DESCRIPTION, COL_IMAGE, COL_REVIEW, COL_FAVORITES};
 
     private static final String CREATE_RESTAURANT_LIST_TABLE =
@@ -89,6 +87,7 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         String columnsSearched = "(" + COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?)"; // c. selections
         int i;
         String newColumnsSearched = columnsSearched;
+
         if (splitSearchedWords.length < 2) {
             return columnsSearched;
         } else {
@@ -112,7 +111,6 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
             ArrayList list = new ArrayList<String>();
             for (j = 0; j < splitSearchedWords.length; j++) {
                 String[] multipleSearchTerms = new String[]{"%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%", "%" + splitSearchedWords[j] + "%"};
-
                 list.addAll(Arrays.asList(multipleSearchTerms));
             }
             String[] newSearchTerms = new String[list.size()];
@@ -125,8 +123,6 @@ public class ProjectSQLiteOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(RESTAURANT_LIST_TABLE_NAME, // a. table
                 RESTAURANT_COLUMNS, // b. column names
-//                COL_RESTAURANT_NAME + " LIKE ? OR " + COL_NEIGHBORHOOD + " LIKE ? OR " + COL_ADDRESS + " LIKE ? OR " + COL_RESTAURANT_TYPE + " LIKE ? OR " + COL_RESTAURANT_PRICE + " LIKE ?", // c. selections
-//                new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"}, // d. selections args
                 specialSearchesColumns(query),
                 specialSearchesQuery(query),
                 null, // e. group by

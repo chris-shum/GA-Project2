@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ProjectSQLiteOpenHelper mHelper;
     private CursorAdapter mCursorAdapter;
     ImageView mTestImage;
+    LinearLayout mLayout;
+    String mainText;
 
 
     @Override
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Ignore the two lines below, they are for setup
+        //two lines given for setup
         DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
         dbSetup.getReadableDatabase();
 
@@ -42,18 +45,24 @@ public class MainActivity extends AppCompatActivity {
         mListViewResults = (ListView) findViewById(R.id.listViewOnMainActivitySearchResults);
         mHelper = ProjectSQLiteOpenHelper.getInstance(MainActivity.this);
         mTestImage = (ImageView) findViewById(R.id.testImageView);
+        mLayout = (LinearLayout) findViewById(R.id.layoutMain);
 
-        mTextViewMain.setText("Welcome to Manhattan Eats!  " +
-                "\nLet's find you a place to eat!" +
-                "\nYou can browse through our restaurant list below," +
-                "\nsearch above with the magnifying glass above," +
-                "\nor check out your favorites also above." +
-                "\n\nSearch by restaurant name, neighborhood, address, type of food, or price (cheap, moderate, or expensive)." +
-                "\n\n\nRestaurant List:");
+        mTestImage.setImageResource(R.drawable.main);
+
+        mainText = "Welcome to Manhattan Eats!  " +
+                "\nLet's get you fat!" +
+                "\n\nBrowse through our restaurant list below" +
+                "\nOr use the magnifying glass above to search!" +
+                "\n\nYou can search by" +
+                "\n restaurant name, neighborhood, " +
+                "\n address, type of food, or price " +
+                "\n (cheap, moderate, or expensive)." +
+                "\n\n\nRestaurant List:";
+        mTextViewMain.setText(mainText);
 
         //the below gets the data from database and adapter sets it to display on the listview.
         Cursor cursor = mHelper.getRestaurantList();
-        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
+        mCursorAdapter = new SimpleCursorAdapter(this, R.layout.custom_layout, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
         mListViewResults.setAdapter(mCursorAdapter);
 
         //searches and displays results
@@ -118,12 +127,13 @@ public class MainActivity extends AppCompatActivity {
             Cursor cursor = mHelper.searchRestaurantList(query);
             mCursorAdapter.changeCursor(cursor);
             if (cursor.getCount() == 0) {
-                mTextViewMain.setText("Your search results for \"" + query + "\"yielded no results.");
+                mTextViewMain.setText("Your search for \"" + query + "\" yielded no results.");
                 mTestImage.setVisibility(View.GONE);
-
+                mLayout.setBackgroundResource(R.drawable.badsearch);
             } else {
                 mTextViewMain.setText("Search results for \"" + query + "\":");
                 mTestImage.setVisibility(View.GONE);
+                mLayout.setBackgroundResource(R.drawable.faded);
             }
         }
     }

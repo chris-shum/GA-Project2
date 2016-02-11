@@ -15,6 +15,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.project.setup.DBAssetHelper;
 
@@ -30,7 +31,7 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-        //Ignore the two lines below, they are for setup
+        //two lines given for setup
         DBAssetHelper dbSetup = new DBAssetHelper(FavoritesActivity.this);
         dbSetup.getReadableDatabase();
 
@@ -40,7 +41,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         //gets favorites list (all items in column with "1" in column) and displays on listview
         Cursor cursor = mHelper.getFavoritesList();
-        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
+        mCursorAdapter = new SimpleCursorAdapter(this, R.layout.custom_layout, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
         mListViewResults.setAdapter(mCursorAdapter);
 
         //searches and displays results
@@ -58,6 +59,21 @@ public class FavoritesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //allows removal of item from favorites.  Uses cursor to find ID, submits ID to database to be changed, refreshes screen.
+        mListViewResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = mCursorAdapter.getCursor();
+                cursor.moveToPosition(position);
+                int theIDNumber = cursor.getInt(cursor.getColumnIndex(ProjectSQLiteOpenHelper.COL_ID));
+                mHelper.updateFavoriteStatus("0", theIDNumber);
+                Toast.makeText(FavoritesActivity.this, mHelper.getNameById(theIDNumber) + " has been removed from your favorites.", Toast.LENGTH_SHORT).show();
+                onResume();
+                return true;
+            }
+        });
+
     }
 
     //had an update error when pressing back buttons after changing a favorite status in page, this refreshes to update the list to the latest changes upon opening
@@ -70,8 +86,6 @@ public class FavoritesActivity extends AppCompatActivity {
             Cursor cursor = mHelper.getFavoritesList();
             mCursorAdapter.changeCursor(cursor);
         }
-//        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor, new String[]{ProjectSQLiteOpenHelper.COL_RESTAURANT_NAME}, new int[]{android.R.id.text1}, 0);
-        //mListViewResults.setAdapter(mCursorAdapter);
     }
 
     //search settings setup as shown in lesson
@@ -102,7 +116,7 @@ public class FavoritesActivity extends AppCompatActivity {
             if (cursor.getCount() == 0) {
                 mTextViewMain.setText("Your search results for \"" + query + "\"yielded no results.");
             } else {
-                mTextViewMain.setText("Search results for \"" + query + "\":");
+                mTextViewMain.setText("search results for \"" + query + "\":");
             }
         }
     }

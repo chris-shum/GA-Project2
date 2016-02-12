@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,17 +93,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //an extra feature I decided to add.  This moves the cursor to a random position and opens said position.
+        //After looking over the code again, I realize that this method only works as long as the keyid#s are sequential,
+        // need to figure out a way to find the keyid#s and randomize that eventually.
         mBigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Cursor cursor = mCursorAdapter.getCursor();
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                 Random rand = new Random();
-                int randomNumber = rand.nextInt(cursor.getCount() - 1);
+                int randomNumber = rand.nextInt(cursor.getCount() + 1);
                 cursor.moveToPosition(randomNumber);
                 intent.putExtra("id", randomNumber);
                 startActivity(intent);
-                Log.d("test", String.valueOf(cursor.getCount()));
+//                Log.d("test", String.valueOf(cursor.getCount()));
             }
         });
 

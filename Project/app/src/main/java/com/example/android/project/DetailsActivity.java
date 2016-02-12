@@ -24,6 +24,7 @@ public class DetailsActivity extends AppCompatActivity {
     String mFavoriteStatus;
     TextView mTextViewDescription;
     RatingBar mRatingBar;
+    TextView mAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,13 @@ public class DetailsActivity extends AppCompatActivity {
         actionbar = findViewById(R.id.toolbar);
         mTextViewDescription = (TextView) findViewById(R.id.textViewOnDetailsActivityDescription);
         mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        mAddress = (TextView) findViewById(R.id.addressText);
 
         mHelper = ProjectSQLiteOpenHelper.getInstance(DetailsActivity.this);
 
         final int theIDNumber = getIntent().getIntExtra("id", -1);
 
-        //rating bar gets data and sets it
+        //rating bar gets data and sets it, also I changed the color to gold
         mRatingBar.setRating(Float.parseFloat((mHelper.getReviewById(theIDNumber))));
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Drawable drawable = ratingBar.getProgressDrawable();
@@ -90,7 +92,8 @@ public class DetailsActivity extends AppCompatActivity {
             //webview grabs images from the net and loads it into my mWebView
             mWebView.loadUrl(restaurantImage);
             setTitle(restaurantName);
-            String mainString = restaurantNeighborhood + "\n" + restaurantAddress + "\nFood type: " + restaurantType + "\nPrice: " + restaurantPrice + "\n\n" + restaurantDescription;
+            String mainString = restaurantNeighborhood + "\nFood type: " + restaurantType + "\nPrice: " + restaurantPrice + "\n\n" + restaurantDescription;
+            mAddress.setText(restaurantAddress);
             mTextViewDescription.setText(mainString);
             mTextViewDescription.setMovementMethod(new ScrollingMovementMethod());
 

@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
 
-    tools:context="com.example.android.project.MainActivity"
-    android:id="@+id/layoutMain"
     android:background="@drawable/faded"
-    >
+    android:orientation="vertical"
+    tools:context="com.example.android.project.MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/testImageView"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/textViewOnMainActivityMainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
         android:layout_margin="16dp"
-        android:textSize="@dimen/font_size"
-        />
+        android:text="Hello World!"
+        android:textSize="@dimen/font_size" />
 
-    <ListView
-        android:id="@+id/listViewOnMainActivitySearchResults"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        >
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/listViewOnMainActivitySearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="bottom"
+                android:id="@+id/bigButton"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                />
 
 
-    </ListView>
+
+    </LinearLayout>
 </LinearLayout>

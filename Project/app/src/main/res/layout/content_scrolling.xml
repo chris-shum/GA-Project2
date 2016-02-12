@@ -15,20 +15,31 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewOnDetailsActivityDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/details_height"
-            android:layout_margin="@dimen/text_margin"
-            android:scrollbars="vertical"
-            android:text="@string/large_text"
+            android:id="@+id/addressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:autoLink="map"
             android:textSize="@dimen/font_size" />
+
+
+            <TextView
+                android:id="@+id/textViewOnDetailsActivityDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/details_height"
+                android:layout_margin="@dimen/text_margin"
+                android:scrollbars="vertical"
+                android:text="@string/large_text"
+                android:textSize="@dimen/font_size" />
+
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="105dp"
+            android:layout_marginTop="85dp"
             android:numStars="5"
             android:stepSize="1" />
 

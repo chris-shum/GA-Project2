@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 import com.example.android.project.setup.DBAssetHelper;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextViewMain;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView mTestImage;
     LinearLayout mLayout;
     String mainText;
-
+    ImageView mBigButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
         mHelper = ProjectSQLiteOpenHelper.getInstance(MainActivity.this);
         mTestImage = (ImageView) findViewById(R.id.testImageView);
         mLayout = (LinearLayout) findViewById(R.id.layoutMain);
+        mBigButton = (ImageView) findViewById(R.id.bigButton);
 
         mTestImage.setImageResource(R.drawable.main);
+        mBigButton.setImageResource(R.drawable.button);
 
         mainText = "Welcome to Manhattan Eats!  " +
                 "\nLet's get you fat!" +
@@ -56,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 "\n\nYou can search by" +
                 "\n restaurant name, neighborhood, " +
                 "\n address, type of food, or price " +
-                "\n (cheap, moderate, or expensive)." +
-                "\n\n\nRestaurant List:";
+                "\n (cheap, moderate, or expensive).";
         mTextViewMain.setText(mainText);
 
         //the below gets the data from database and adapter sets it to display on the listview.
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         //searches and displays results
         handleIntent(getIntent());
+
 
         //onItemClickListener gets the ID# of the data being clicked, opens up details activity, and passes the ID# of the data.
         mListViewResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,6 +93,22 @@ public class MainActivity extends AppCompatActivity {
                 mTestImage.setVisibility(View.GONE);
             }
         });
+
+        mBigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor cursor = mCursorAdapter.getCursor();
+                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                Random rand = new Random();
+                int randomNumber = rand.nextInt(cursor.getCount() - 1);
+                cursor.moveToPosition(randomNumber);
+                intent.putExtra("id", randomNumber);
+                startActivity(intent);
+                Log.d("test", String.valueOf(cursor.getCount()));
+            }
+        });
+
+
     }
 
     //search settings setup as shown in lesson
@@ -129,10 +150,12 @@ public class MainActivity extends AppCompatActivity {
             if (cursor.getCount() == 0) {
                 mTextViewMain.setText("Your search for \"" + query + "\" yielded no results.");
                 mTestImage.setVisibility(View.GONE);
+                mBigButton.setVisibility(View.GONE);
                 mLayout.setBackgroundResource(R.drawable.badsearch);
             } else {
                 mTextViewMain.setText("Search results for \"" + query + "\":");
                 mTestImage.setVisibility(View.GONE);
+                mBigButton.setVisibility(View.GONE);
                 mLayout.setBackgroundResource(R.drawable.faded);
             }
         }

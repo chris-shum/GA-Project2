@@ -10,8 +10,11 @@
     tools:showIn="@layout/activity_scrolling">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/details_margin"
+        android:background="@drawable/background"
         android:orientation="vertical">
 
         <TextView
@@ -24,14 +27,14 @@
             android:textSize="@dimen/font_size" />
 
 
-            <TextView
-                android:id="@+id/textViewOnDetailsActivityDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/details_height"
-                android:layout_margin="@dimen/text_margin"
-                android:scrollbars="vertical"
-                android:text="@string/large_text"
-                android:textSize="@dimen/font_size" />
+        <TextView
+            android:id="@+id/textViewOnDetailsActivityDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/details_height"
+            android:layout_margin="@dimen/text_margin"
+            android:scrollbars="vertical"
+            android:text="@string/large_text"
+            android:textSize="@dimen/font_size" />
 
 
         <RatingBar

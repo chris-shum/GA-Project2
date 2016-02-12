@@ -1,13 +1,11 @@
 package com.example.android.project;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -48,9 +46,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         //rating bar gets data and sets it, also I changed the color to gold
         mRatingBar.setRating(Float.parseFloat((mHelper.getReviewById(theIDNumber))));
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        Drawable drawable = ratingBar.getProgressDrawable();
-        drawable.setColorFilter(Color.parseColor("#ffd700"), PorterDuff.Mode.SRC_ATOP);
+//        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+//        Drawable drawable = ratingBar.getProgressDrawable();
+//        drawable.setColorFilter(Color.parseColor("#ffd700"), PorterDuff.Mode.SRC_ATOP);
 
         mFavoriteStatus = mHelper.getFavoritesById(theIDNumber);
         //the above gets the status of the favorite while below sets the image of the favorite star
@@ -102,6 +100,7 @@ public class DetailsActivity extends AppCompatActivity {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     mHelper.updateReviewStatus(Float.toString(mRatingBar.getRating()), theIDNumber);
+                    Log.d("rating"," "+ mRatingBar.getRating());
                 }
             });
         }

@@ -3,6 +3,8 @@
 
 ###Overview:
 
+Manhattan Eats is a neighborhood guide app made in a fashion similar to the app Yelp. The app allows a user to browse through a pre-populated list of restaurants in the area, it displays the restaurant's information, and it allows you to map your way to the restaurant. I stored my restaurant data in an SQLite database and using a SQLiteOpenDatabaseHelper, the app can search, retrieve, and edit the columns of restaurant data. The app includes the use of an ArrayAdapter, Listeners, and Intents as well as the implementation of some material design.
+
 ###Experience:
 
 My approach to this app was to attack all the functionality components first.  I kept it simple creating only one activity per major function, testing each one as I completed it.  Once finishing, I moved on to the material design.  Design is tough for me, and I became even more discouraged when I had been fully testing on my device only to find that the layout did not work as well for the emulator.  Fortunately I found documentation to support multiple screens.
